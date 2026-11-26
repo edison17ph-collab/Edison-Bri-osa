@@ -1,0 +1,28 @@
+/* motion.css - scroll-alive 3D motion, word reveals, marquee, skill icons. Load last. */
+.chips li{display:inline-flex;align-items:center;gap:9px}
+.chips .ic{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.chips .ic text{fill:currentColor;stroke:none;font:800 9px var(--font)}
+
+/* marquee band between Home and About */
+.marquee{background:var(--dk);overflow:hidden;white-space:nowrap;padding:26px 0;border-block:1px solid var(--dark-line)}
+.mq-track{display:inline-flex;align-items:center;gap:34px;will-change:transform;transform:skewX(calc(var(--sv,0)*-.12deg))}
+.mq-track span{font:800 clamp(34px,6vw,76px)/1 var(--font);letter-spacing:-.01em;color:transparent;-webkit-text-stroke:1.5px #d9dadd}
+.mq-track span:nth-of-type(even){color:#fff;-webkit-text-stroke:0}
+.mq-track i{font-style:normal;color:#8b8d94;font-size:22px}
+
+@media (prefers-reduced-motion:no-preference){
+  /* word-by-word masked text reveal */
+  .sr .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.14em;margin-bottom:-.14em}
+  .sr .wi{display:inline-block;transition:transform 1s var(--ease);transition-delay:calc(var(--i,0)*45ms)}
+  .sr:not(.in) .wi{transform:translateY(115%) rotate(5deg)}
+  .sr.fast .wi{transition-delay:calc(var(--i,0)*18ms)}
+
+  /* scroll-linked depth. --p is set per section by motion.js: 0 = settled, +1 entering, -1 leaving */
+  .seen:not(.hero) .box{transform:perspective(1100px) rotateX(calc(var(--p,0)*9deg));transform-origin:50% 100%;transition:opacity .9s var(--ease),transform .3s ease-out;scale:calc(1 - var(--p,0)*var(--p,0)*.05)}
+  .seen .art{translate:0 calc(var(--p,0)*-70px)}
+  .seen .hexes,.seen .logos{translate:0 calc(var(--p,0)*-34px)}
+  .hero-photo{translate:0 calc(var(--p,0)*-50px)}
+  .num{translate:0 calc(var(--p,0)*46px)}
+  section::before{background-position-y:calc(var(--p,0)*-110px)}
+}
+@media (max-width:700px){.seen:not(.hero) .box{transform:perspective(900px) rotateX(calc(var(--p,0)*4deg))}.seen .art{translate:0 calc(var(--p,0)*-30px)}}
